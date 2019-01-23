@@ -1,0 +1,73 @@
+@import variables
+@import mixins
+@import common
+
+html
+  box-sizing: border-box
+  font-size: 16px
+  font-family: Rubik
+
+*, :after, :before
+  box-sizing: inherit
+
+body
+  overflow: hidden
+  margin: 0
+  background-color: $primary-color
+  text-align: center
+  height: 100vh
+  @extend .d-flex-jc-ai-center
+
+#app
+  background-color: #ffffff
+  box-shadow: 0 0 40px rgba(0,0,0,.1)
+  width: 100%
+  height: 100%
+  padding: 0.8rem
+
+.ze-play-pause-btn
+  height: 6.2rem
+  width: 6.2rem
+  border: 2px solid $primary-color
+  margin-bottom: 2rem
+  border-radius: 50%
+  cursor: pointer
+  .ze-play
+    margin-left: 0.4rem
+    width: 0
+    height: 0
+    border-top: 20px solid transparent
+    border-bottom: 20px solid transparent    
+    border-left: 31px solid $primary-color
+  .ze-pause
+    height: 100%
+    width: 100%
+    position: relative
+    &:before, &:after
+      content: ''
+      position: absolute
+      top: 44%
+      height: 8px
+      width: 40px
+      background-color: $primary-color
+      border-radius: 2px
+      transform: rotate(90deg)
+    &:before
+      left: 17%
+    &:after
+      left: 40%
+
+@media only screen and (min-width: 992px)
+  body
+    +setBackgroundImage('../Background_0.jpg', cover)
+    min-height: 100vh
+
+  #app
+    max-width: 800px
+    max-height: 530px
+    padding: 2rem
+    border-radius: 4px
+
+
+
+
