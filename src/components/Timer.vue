@@ -1,6 +1,8 @@
 <template>
-  <div class="ze-timer-container">
-    <p :class="timerState">{{RemainingMinutes}}:{{RemainingSeconds}}</p>
+  <div :class="`ze-timer-container d-flex-jc-ai-center ${timerState}`">
+    <div class="ze-time">{{RemainingMinutesTenth}}{{RemainingMinutesUnit}}</div>
+    <div>:</div>
+    <div class="ze-time">{{RemainingSecondsTenth}}{{RemainingSecondsUnit}}</div>
   </div>
 </template>
 
@@ -17,18 +19,30 @@ export default {
   computed: {
     timerState() {
       if (this.seconds > 10 && this.seconds < 20) {
-        return "red"
+        return 'red'
       }
       if (this.seconds <= 10 && this.seconds > 0) {
-        return "alert"
+        return 'alert'
       }
-      return ""
+      return ''
     },
     RemainingMinutes() {
       return Math.floor(this.seconds / 60)
     },
+    RemainingMinutesTenth() {
+      return Math.floor(this.RemainingMinutes / 10)
+    },
+    RemainingMinutesUnit() {
+      return this.RemainingMinutes - this.RemainingMinutesTenth * 10
+    },
     RemainingSeconds() {
       return Math.floor(this.seconds - this.RemainingMinutes * 60)
+    },
+    RemainingSecondsTenth() {
+      return Math.floor(this.RemainingSeconds / 10)
+    },
+    RemainingSecondsUnit() {
+      return this.RemainingSeconds - this.RemainingSecondsTenth * 10
     },
   },
 }

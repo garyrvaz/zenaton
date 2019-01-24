@@ -2,39 +2,40 @@
   <div id="app">
     <Countdown
       @minutes="updateMinutes"
-      :showStart="showStart"
       :setMessage="setMessage"
       :startCountdown="startCountdown"
+      :showPlay="showPlay"
     />
     <transition name="slide-fade">
       <Message v-show="message" :message="message"/>
     </transition>
     <Timer :seconds="totalSeconds"/>
-    <div class="ze-play-pause-btn-container d-flex-jc-ai-center" v-show="!showStart">
-      <div class="ze-play-pause-btn d-flex-jc-ai-center" @click="toggleCountdown">
-        <div v-show="!continueCounting" class="ze-play"></div>
-        <div v-show="continueCounting" class="ze-pause"></div>
-      </div>
-    </div>
+    <PlayPauseButton
+      v-show="showPlay"
+      :toggleCountdown="toggleCountdown"
+      :continueCounting="continueCounting"
+    />
     <Speed :setSpeed="setSpeed" :active-speed="speed"/>
   </div>
 </template>
 
 <script>
-import Countdown from "./components/Countdown.vue"
-import Timer from "./components/Timer.vue"
-import Speed from "./components/Speed.vue"
-import Message from "./components/Message.vue"
+import Countdown from '@/components/Countdown.vue'
+import Timer from '@/components/Timer.vue'
+import Speed from '@/components/Speed.vue'
+import Message from '@/components/Message.vue'
+import PlayPauseButton from '@/components/PlayPauseButton.vue'
 
-import { messages } from "./utils"
+import { messages } from '@/utils'
 
 export default {
-  name: "app",
+  name: 'app',
   components: {
     Countdown,
     Timer,
     Speed,
     Message,
+    PlayPauseButton,
   },
   data() {
     return {
@@ -43,8 +44,9 @@ export default {
       timeMinutes: 0,
       speed: 1,
       continueCounting: false,
-      showStart: true,
-      message: "",
+      showPlay: false,
+      message: '',
+      timedOutCountdown: '',
     }
   },
   methods: {
@@ -58,7 +60,7 @@ export default {
       }
     },
     updateMinutes(value) {
-      this.showStart = true
+      this.showPlay = false
       this.continueCounting = false
       this.initialSeconds = value
       this.totalSeconds = value
@@ -66,13 +68,18 @@ export default {
     setMessage(message) {
       this.message = message
       setTimeout(() => {
-        this.message = ""
-      }, 4000)
+        this.message = ''
+      }, 2000)
     },
     startCountdown() {
+      if (this.timedOutCountdown) {
+        clearTimeout(this.timedOutCountdown)
+        this.updateMinutes(this.initialSeconds)
+      }
+
       if (this.totalSeconds > 0) {
         this.continueCounting = true
-        this.showStart = false
+        this.showPlay = true
         this.countdown()
       } else {
         this.setMessage(messages.zero)
@@ -83,15 +90,19 @@ export default {
         if (this.totalSeconds === this.initialSeconds / 2) {
           this.setMessage(messages.halfway)
         }
-        this.totalSeconds -= 1
-        setTimeout(() => {
-          this.countdown()
+        this.timedOutCountdown = setTimeout(() => {
+          if (this.continueCounting) {
+            this.totalSeconds -= 1
+            this.countdown()
+          }
         }, Math.floor(1000 / this.speed))
       }
 
       if (this.totalSeconds === 0) {
+        this.setMessage(messages.timeUp)
         this.continueCounting = false
-        this.showStart = true
+        this.showPlay = false
+        this.totalSeconds = this.initialSeconds
       }
     },
   },

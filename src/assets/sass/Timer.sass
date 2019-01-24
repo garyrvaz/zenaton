@@ -1,10 +1,20 @@
 .ze-timer-container
-  p
+  margin-bottom: 2rem
+  .ze-time
+    width: 45%
+  div
     font-size: 4rem
     font-weight: 500
+    &:nth-child(1)
+      text-align: right
+    &:nth-child(2)
+      padding-bottom: 0.8rem
+    &:nth-child(3)
+      text-align: left  
 
-@media only screen and (min-width: 992px)
+@media only screen and (min-width: 768px)
   .ze-timer-container
-    p
-      margin: 2rem
+    div
       font-size: 8rem
+      &:nth-child(2)
+        padding-bottom: 1.5rem

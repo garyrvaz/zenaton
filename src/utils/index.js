@@ -1,30 +1,30 @@
 export const speeds = [
   {
-    label: "1x",
+    label: '1x',
     speed: 1,
   },
   {
-    label: "1.5x",
+    label: '1.5x',
     speed: 1.5,
   },
   {
-    label: "2x",
+    label: '2x',
     speed: 2,
   },
   {
-    label: "4x",
+    label: '4x',
     speed: 4,
   },
   {
-    label: "8x",
+    label: '8x',
     speed: 8,
   },
 ]
 
 export const messages = {
-  zero: "You need to enter minutes to start a countdown!",
-  halfway: "More than halfway there!",
+  zero: 'You need to enter minutes to start a countdown!',
+  halfway: 'More than halfway there!',
   timeUp: "Time's up!",
-  required: "Minutes are required for the countdown!",
-  tooHigh: "Damn! you need a calendar reminder!",
+  required: 'Minutes are required for the countdown!',
+  tooHigh: 'Damn! you need a calendar reminder!',
 }
